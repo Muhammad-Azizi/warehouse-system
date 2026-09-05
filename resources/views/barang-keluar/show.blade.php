@@ -160,13 +160,15 @@
 
 
                     {{-- TOMBOL PRINT --}}
-                    <button
-                        type="button"
-                        onclick="window.print()"
-                        class="no-print px-5 py-3 border border-gray-300 rounded-lg hover:bg-gray-50"
-                    >
-                        🖨 Print
-                    </button>
+                    <div class="flex items-center gap-2 no-print">
+                        <a
+                            href="{{ route('barang-keluar.print', $barangKeluar) }}"
+                            target="_blank"
+                            class="px-5 py-2.5 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition flex items-center gap-2 text-sm font-medium"
+                        >
+                            🖨️ Cetak Dokumen
+                        </a>
+                    </div>
 
                 </div>
 

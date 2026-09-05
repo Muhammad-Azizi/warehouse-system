@@ -119,6 +119,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/barang-masuk/{barangMasuk}', [BarangMasukController::class, 'show'])
         ->name('barang-masuk.show');
 
+    // Print barang masuk
+    Route::get(
+        '/barang-masuk/{barangMasuk}/print',
+        [BarangMasukController::class, 'print']
+    )->name('barang-masuk.print');
+
     // Hapus barang masuk
     Route::delete('/barang-masuk/{barangMasuk}', [BarangMasukController::class, 'destroy'])
         ->name('barang-masuk.destroy');
@@ -149,6 +155,12 @@ Route::middleware(['auth'])->group(function () {
     // Detail barang keluar
     Route::get('/barang-keluar/{barangKeluar}', [BarangKeluarController::class, 'show'])
         ->name('barang-keluar.show');
+
+    // Print barang keluar
+    Route::get(
+        '/barang-keluar/{barangKeluar}/print',
+        [BarangKeluarController::class, 'print']
+    )->name('barang-keluar.print');
 
     // Hapus barang keluar
     Route::delete('/barang-keluar/{barangKeluar}', [BarangKeluarController::class, 'destroy'])

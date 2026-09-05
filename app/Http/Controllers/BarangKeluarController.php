@@ -12,9 +12,26 @@ class BarangKeluarController extends Controller
     /**
      * Menampilkan daftar barang keluar
      */
-    public function index()
+    public function index(Request $request)
     {
-        $barangKeluars = BarangKeluar::with('details.material')
+        $query = BarangKeluar::with('details.material');
+
+        // Filter tanggal mulai
+        if ($request->filled('dari_tanggal')) {
+            $query->whereDate('tanggal', '>=', $request->dari_tanggal);
+        }
+
+        // Filter tanggal sampai
+        if ($request->filled('sampai_tanggal')) {
+            $query->whereDate('tanggal', '<=', $request->sampai_tanggal);
+        }
+
+        // Filter tujuan
+        if ($request->filled('tujuan')) {
+            $query->where('tujuan', 'like', '%' . $request->tujuan . '%');
+        }
+
+        $barangKeluars = $query
             ->latest()
             ->get();
 
@@ -168,6 +185,20 @@ class BarangKeluarController extends Controller
 
         return view(
             'barang-keluar.show',
+            compact('barangKeluar')
+        );
+    }
+
+
+    /**
+     * Halaman print barang keluar
+     */
+    public function print(BarangKeluar $barangKeluar)
+    {
+        $barangKeluar->load('details.material');
+
+        return view(
+            'barang-keluar.print',
             compact('barangKeluar')
         );
     }

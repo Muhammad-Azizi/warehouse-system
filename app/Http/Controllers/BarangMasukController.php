@@ -16,33 +16,26 @@ class BarangMasukController extends Controller
     {
         $query = BarangMasuk::with('details.material');
 
-        // Filter tanggal
-        if ($request->filled('dari_tanggal')) {
-            $query->whereDate('tanggal', '>=', $request->dari_tanggal);
+        // Filter tanggal mulai
+        if ($request->filled('tanggal_mulai')) {
+            $query->whereDate('tanggal', '>=', $request->tanggal_mulai);
         }
 
-        if ($request->filled('sampai_tanggal')) {
-            $query->whereDate('tanggal', '<=', $request->sampai_tanggal);
+        // Filter tanggal sampai
+        if ($request->filled('tanggal_selesai')) {
+            $query->whereDate('tanggal', '<=', $request->tanggal_selesai);
         }
 
         // Filter supplier
         if ($request->filled('supplier')) {
-            $query->where(
-                'supplier',
-                'like',
-                '%' . $request->supplier . '%'
-            );
+            $query->where('supplier', 'like', '%' . $request->supplier . '%');
         }
 
         $barangMasuks = $query
-            ->latest('tanggal')
             ->latest()
             ->get();
 
-        return view(
-            'barang-masuk.index',
-            compact('barangMasuks')
-        );
+        return view('barang-masuk.index', compact('barangMasuks'));
     }
 
 
@@ -152,6 +145,20 @@ class BarangMasukController extends Controller
 
         return view(
             'barang-masuk.show',
+            compact('barangMasuk')
+        );
+    }
+
+
+    /**
+     * Halaman print barang masuk
+     */
+    public function print(BarangMasuk $barangMasuk)
+    {
+        $barangMasuk->load('details.material');
+
+        return view(
+            'barang-masuk.print',
             compact('barangMasuk')
         );
     }
